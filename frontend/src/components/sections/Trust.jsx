@@ -1,9 +1,12 @@
 import { useEffect, useRef } from 'react';
 import { useRevealAll } from '../../hooks/useReveal';
 
-const STATS = [
+const STATS_LEFT = [
   { count: 2002, label: 'Year founded' },
   { count: 24, label: 'Years in continuous supply' },
+];
+
+const STATS_RIGHT = [
   { count: 3, label: 'Packaging formats' },
   { count: null, display: 'MP', label: 'Based in Jabalpur, Madhya Pradesh' },
 ];
@@ -48,14 +51,34 @@ export default function Trust() {
   }, []);
 
   return (
-    <section className="trust section-pad" id="trust" ref={containerRef}>
+    <section className="trust" id="trust" ref={containerRef}>
       <div className="wrap">
-        {STATS.map((stat, i) => (
-          <div className="trust-item reveal" key={i}>
+        {STATS_LEFT.map((stat, i) => (
+          <div className="trust-item reveal" key={`left-${i}`}>
             <div
               className="t-num"
               data-count={stat.count ?? undefined}
               ref={(el) => (counterRefs.current[i] = el)}
+            >
+              {stat.display ?? '0'}
+            </div>
+            <div className="t-label">{stat.label}</div>
+          </div>
+        ))}
+
+        {/* PEORA LOGO IN THE MIDDLE */}
+        <div className="trust-logo-item reveal">
+          <div className="trust-logo">
+            peora<span>.</span>
+          </div>
+        </div>
+
+        {STATS_RIGHT.map((stat, i) => (
+          <div className="trust-item reveal" key={`right-${i}`}>
+            <div
+              className="t-num"
+              data-count={stat.count ?? undefined}
+              ref={(el) => (counterRefs.current[i + 2] = el)}
             >
               {stat.display ?? '0'}
             </div>

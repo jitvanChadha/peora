@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#004AEB"/>
+      <stop offset="100%" stop-color="#002CB0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Outer White Shield Outline -->
+  <path d="M 54 54 
+           L 310 54 
+           C 395 54, 458 117, 458 202 
+           L 458 310 
+           C 458 395, 395 458, 310 458 
+           L 54 458 
+           Z" 
+        fill="#FFFFFF" />
+
+  <!-- Inner Blue Shield -->
+  <path d="M 80 80 
+           L 295 80 
+           C 368 80, 424 136, 424 209 
+           L 424 295 
+           C 424 368, 368 424, 295 424 
+           L 80 424 
+           Z" 
+        fill="url(#bgGrad)" />
+
+  <!-- Bold White 'p' Emblem -->
+  <path d="M 152 145 
+           L 278 145 
+           C 342 145, 368 182, 368 238 
+           C 368 294, 340 332, 274 332 
+           L 218 332 
+           L 218 367 
+           L 152 367 
+           Z" 
+        fill="#FFFFFF" />
+
+  <!-- Teardrop Cutout inside 'p' bowl -->
+  <path d="M 270 200 
+           C 246 235, 230 250, 230 266 
+           C 230 286, 248 300, 270 300 
+           C 292 300, 310 286, 310 266 
+           C 310 250, 294 235, 270 200 Z" 
+        fill="url(#bgGrad)" />
+</svg>

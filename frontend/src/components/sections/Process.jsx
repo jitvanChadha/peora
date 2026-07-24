@@ -1,36 +1,54 @@
 import { useEffect, useRef, useState } from 'react';
+import { useRevealAll } from '../../hooks/useReveal';
 
 const STAGES = [
-  { num: 'STAGE 01 / 06', title: 'Source intake', desc: "Groundwater is drawn from deep bore wells and logged before it enters the line — the starting point every batch is traceable back to." },
-  { num: 'STAGE 02 / 06', title: 'Sediment filtration', desc: 'Multi-grade filters strip suspended solids and particulate matter, stage by stage, down to a fine micron level.' },
-  { num: 'STAGE 03 / 06', title: 'Activated carbon', desc: 'Carbon beds pull out residual chlorine, odour and organic compounds, clearing the way for the membrane stage.' },
-  { num: 'STAGE 04 / 06', title: 'Reverse osmosis', desc: 'Semi-permeable membranes bring dissolved solids down to a consistent, controlled range — batch after batch, no guesswork.' },
-  { num: 'STAGE 05 / 06', title: 'UV disinfection', desc: 'Ultraviolet exposure neutralises microbiological contaminants without adding a single chemical to the water.' },
-  { num: 'STAGE 06 / 06', title: 'Ozonation & seal', desc: 'Ozone keeps the water sterile right through packaging. Jars, bottles and pouches are filled and sealed the same day.' },
-];
-
-const READOUT_DATA = [
-  'Groundwater drawn & logged',
-  'Particulate reduced to micron-level',
-  'Chlorine & odour stripped',
-  'Dissolved solids brought to range',
-  'Microbiological load neutralised',
-  'Filled, sealed, ready to ship',
-];
-
-const DOT_LABELS = [
-  '01 — Source Intake',
-  '02 — Sediment Filtration',
-  '03 — Activated Carbon',
-  '04 — Reverse Osmosis',
-  '05 — UV Disinfection',
-  '06 — Ozonation & Seal',
+  {
+    num: 'STAGE 01 / 06',
+    title: 'Source intake',
+    desc: 'Water drawn from protected aquifers and quality‑checked at entry.',
+    img: '/assets/process_intake.jpg',
+    alt: 'Source intake aquifer pumping system',
+  },
+  {
+    num: 'STAGE 02 / 06',
+    title: 'Sediment filtration',
+    desc: 'Removes sand, silt and suspended particles.',
+    img: '/assets/process_sediment.jpg',
+    alt: 'Industrial sediment filtration machinery',
+  },
+  {
+    num: 'STAGE 03 / 06',
+    title: 'Activated carbon',
+    desc: 'Adsorbs chlorine, organic contaminants, and off‑tastes.',
+    img: '/assets/process_carbon.jpg',
+    alt: 'Activated carbon filtration vessels',
+  },
+  {
+    num: 'STAGE 04 / 06',
+    title: 'Reverse osmosis',
+    desc: 'High‑precision membrane filtration to remove dissolved solids and impurities.',
+    img: '/assets/process_ro.jpg',
+    alt: 'High precision reverse osmosis membrane skid',
+  },
+  {
+    num: 'STAGE 05 / 06',
+    title: 'UV disinfection',
+    desc: 'Germicidal ultraviolet treatment to inactivate bacteria, viruses and protozoa.',
+    img: '/assets/process_uv.jpg',
+    alt: 'Ultraviolet UV disinfection unit',
+  },
+  {
+    num: 'STAGE 06 / 06',
+    title: 'Ozonation & seal',
+    desc: 'Final ozonation for residual disinfection, followed by tamper‑evident sealing.',
+    img: '/assets/process_seal.jpg',
+    alt: 'Automated ozonation and bottle capping machine line',
+  },
 ];
 
 export default function Process() {
   const [activeStage, setActiveStage] = useState(0);
-  const [readout, setReadout] = useState(READOUT_DATA[0]);
-  const [readoutVisible, setReadoutVisible] = useState(true);
+  const containerRef = useRevealAll('.reveal');
   const stageRefs = useRef([]);
 
   useEffect(() => {
@@ -39,12 +57,9 @@ export default function Process() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const idx = parseInt(entry.target.getAttribute('data-stage'), 10);
-            setActiveStage(idx);
-            setReadoutVisible(false);
-            setTimeout(() => {
-              setReadout(READOUT_DATA[idx]);
-              setReadoutVisible(true);
-            }, 200);
+            if (!isNaN(idx)) {
+              setActiveStage(idx);
+            }
           }
         });
       },
@@ -59,33 +74,39 @@ export default function Process() {
   }, []);
 
   return (
-    <section className="process section-pad" id="process">
+    <section className="process section-pad" id="process" ref={containerRef}>
       <div className="wrap">
         <div className="process-grid">
-          <div className="process-sticky">
+          {/* STICKY LEFT COLUMN WITH SLIDING MACHINE IMAGE */}
+          <div className="process-sticky reveal">
             <span className="eyebrow">The Process</span>
-            <h3>Six stages between the aquifer and the seal.</h3>
-            <p style={{ color: 'var(--text-dim)', fontSize: '15px', lineHeight: 1.7, maxWidth: '38ch' }}>
-              Every jar, bottle and pouch passes through the same multi-barrier line before it leaves the plant.
+            <h3>Six stages. Zero compromise.</h3>
+            <p className="process-sticky-desc">
+              Every batch passes through our multi-barrier purification line before it leaves the plant.
             </p>
-            <div className="process-track" id="processTrack">
-              {DOT_LABELS.map((label, i) => (
-                <div className={`dot-row${activeStage === i ? ' active' : ''}`} data-stage={i} key={i}>
-                  {label}
+
+            {/* SLIDING MACHINE IMAGE FRAME */}
+            <div className="process-image-frame">
+              {STAGES.map((stage, i) => (
+                <div
+                  className={`process-slide-img-wrap ${activeStage === i ? 'active' : ''}`}
+                  key={i}
+                >
+                  <img src={stage.img} alt={stage.alt} className="process-slide-img" />
+                  <div className="process-slide-overlay">
+                    <span className="slide-num">{stage.num}</span>
+                    <span className="slide-title">{stage.title}</span>
+                  </div>
                 </div>
               ))}
             </div>
-            <div className="readout">
-              <div className="r-label">Reading</div>
-              <div className="r-value" id="readoutValue" style={{ opacity: readoutVisible ? 1 : 0 }}>
-                {readout}
-              </div>
-            </div>
           </div>
-          <div className="stage-list" id="stageList">
+
+          {/* RIGHT COLUMN WITH SCROLLABLE STAGE CARDS */}
+          <div className="stage-list">
             {STAGES.map((stage, i) => (
               <div
-                className={`stage-card${activeStage === i ? ' active' : ''}`}
+                className={`stage-card ${activeStage === i ? 'active' : ''}`}
                 data-stage={i}
                 key={i}
                 ref={(el) => (stageRefs.current[i] = el)}

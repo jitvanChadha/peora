@@ -24,9 +24,9 @@ export default function App() {
         <Formats />
         <ColorSwapText />
         <Customize />
+        <Trust />
         <Process />
         <Serve />
-        <Trust />
         <Voices />
         <Wholesale />
       </main>

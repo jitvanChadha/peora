@@ -87,7 +87,7 @@ export default function Header() {
           </nav>
           <a href="#wholesale" className="nav-cta" onClick={(e) => handleAnchorClick(e, '#wholesale')}>
             <span className="cta-dot" />
-            Get a Quote
+            Contact Us
           </a>
         </div>
         <div
