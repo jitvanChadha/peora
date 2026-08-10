@@ -13,7 +13,7 @@ export default function Footer() {
         <div className="footer-top">
           <div className="footer-brand">
             <a className="logo" href="#top" onClick={(e) => handleAnchorClick(e, '#top')}>
-              peora<span>.</span>
+              peora
             </a>
             <p>Hygienically processed drinking water, manufactured in Jabalpur, Madhya Pradesh since 2002.</p>
           </div>
@@ -35,7 +35,7 @@ export default function Footer() {
           <div className="footer-col">
             <h5>Contact</h5>
             <ul>
-              <li><a href="mailto:wholesale@peorawater.in">wholesale@peorawater.in</a></li>
+              <li><a href="mailto:omaquaserve@gmail.com">omaquaserve@gmail.com</a></li>
               <li>Jabalpur, Madhya Pradesh</li>
             </ul>
           </div>

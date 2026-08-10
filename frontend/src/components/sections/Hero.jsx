@@ -7,9 +7,9 @@ export default function Hero() {
         <div className="hero-text">
           <div className="hero-badge">
             <h1>
-              <span className="h1-sans">Water,</span><br />
-              <em className="h1-serif">accounted</em><br />
-              <span className="h1-sans">for every batch.</span>
+              <span className="h1-sans">Pure water,</span><br />
+              <em className="h1-serif">For pure</em><br />
+              <span className="h1-sans">Moments.</span>
             </h1>
           </div>
         </div>

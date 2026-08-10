@@ -7,7 +7,7 @@ export default function ColorSwapText() {
     const block = blockRef.current;
     if (!block) return;
 
-    const text = 'Pure water, processed with precision, delivered without compromise — that is the Peora standard.';
+    const text = 'Pure water, crafted with care and tested to the highest standards.';
     block.innerHTML = text
       .split(/\s+/)
       .map((w) => `<span class="word">${w}</span>`)

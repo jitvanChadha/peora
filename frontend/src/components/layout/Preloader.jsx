@@ -40,7 +40,7 @@ export default function Preloader() {
       } : undefined}
     >
       <div className="preloader-logo" style={{ opacity: 1 }}>
-        peora<span>.</span>
+        <span className="preloader-sans">peora</span>
       </div>
       <div className="preloader-bar">
         <div className="preloader-bar-fill" style={{ width: `${progress}%` }} />

@@ -92,7 +92,10 @@ export default function Process() {
                   className={`process-slide-img-wrap ${activeStage === i ? 'active' : ''}`}
                   key={i}
                 >
-                  <img src={stage.img} alt={stage.alt} className="process-slide-img" />
+                  <div className="process-slide-placeholder">
+                    <span className="placeholder-icon">📷</span>
+                    <span className="placeholder-label">Add image</span>
+                  </div>
                   <div className="process-slide-overlay">
                     <span className="slide-num">{stage.num}</span>
                     <span className="slide-title">{stage.title}</span>

@@ -15,7 +15,6 @@ export default function Wholesale() {
       <div className="wrap">
         <div className="wholesale-grid">
           <div className="reveal">
-            <span className="eyebrow" style={{ color: 'var(--accent-dim)' }}>Wholesale &amp; Bulk Supply</span>
             <h2>Let's put your order on the line.</h2>
             <p className="lead">
               Tell us your business type and the volumes you're working with — we'll come back with a supply plan and pricing suited to your delivery schedule.
@@ -62,7 +61,7 @@ export default function Wholesale() {
               type="submit"
               style={submitted ? { background: 'var(--accent)', color: 'var(--bg)' } : undefined}
             >
-              {submitted ? '✓ Request received' : 'Send Inquiry →'}
+              {submitted ? '✓ Request received' : 'Send Inquiry'}
             </button>
             <p className="form-note">We reply to wholesale inquiries within one business day.</p>
           </form>

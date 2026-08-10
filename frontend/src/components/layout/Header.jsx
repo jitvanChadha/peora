@@ -8,7 +8,6 @@ export default function Header() {
   const [navReady, setNavReady] = useState(false);   // preloader done
   const [expanded, setExpanded] = useState(false);    // pill → full width
   const [linksIn, setLinksIn] = useState(false);      // links fade in
-  const [ctaIn, setCtaIn] = useState(false);          // cta glows in
   const headerRef = useRef(null);
 
   useEffect(() => {
@@ -40,10 +39,8 @@ export default function Header() {
       setTimeout(() => setNavReady(true), 100);
       // Stage 2: expand to full width
       setTimeout(() => setExpanded(true), 700);
-      // Stage 3: reveal links with stagger
+      // Stage 3: reveal all links with stagger
       setTimeout(() => setLinksIn(true), 1050);
-      // Stage 4: CTA materialises
-      setTimeout(() => setCtaIn(true), 1450);
     };
 
     waitForPreloader();
@@ -64,7 +61,6 @@ export default function Header() {
     navReady ? 'nav-ready' : '',
     expanded ? 'nav-expanded' : '',
     linksIn ? 'nav-links-in' : '',
-    ctaIn ? 'nav-cta-in' : '',
   ].filter(Boolean).join(' ');
 
   return (
@@ -72,31 +68,36 @@ export default function Header() {
       {/* Ambient glow behind the pill */}
       <div className="nav-glow" />
       <div className="nav-inner">
-        <nav className={`nav-left${mobileOpen ? ' mobile-open' : ''}`}>
+        <nav className="nav-left">
           <a href="#formats" className="nav-link" style={{ '--i': 0 }} onClick={(e) => handleAnchorClick(e, '#formats')}>Products</a>
           <a href="#customize" className="nav-link" style={{ '--i': 1 }} onClick={(e) => handleAnchorClick(e, '#customize')}>Customise</a>
           <a href="#process" className="nav-link" style={{ '--i': 2 }} onClick={(e) => handleAnchorClick(e, '#process')}>Process</a>
         </nav>
         <a className="logo" href="#top" style={{ '--i': 3 }} onClick={(e) => handleAnchorClick(e, '#top')}>
-          peora<span>.</span>
+          peora
         </a>
-        <div className={`nav-right${mobileOpen ? ' mobile-open' : ''}`}>
-          <nav className="nav-right-links">
-            <a href="#serve" className="nav-link" style={{ '--i': 4 }} onClick={(e) => handleAnchorClick(e, '#serve')}>Clients</a>
-            <a href="#trust" className="nav-link" style={{ '--i': 5 }} onClick={(e) => handleAnchorClick(e, '#trust')}>Trust</a>
-          </nav>
-          <a href="#wholesale" className="nav-cta" onClick={(e) => handleAnchorClick(e, '#wholesale')}>
-            <span className="cta-dot" />
-            Contact Us
-          </a>
-        </div>
+        <nav className="nav-right">
+          <a href="#serve" className="nav-link" style={{ '--i': 4 }} onClick={(e) => handleAnchorClick(e, '#serve')}>Clients</a>
+          <a href="#trust" className="nav-link" style={{ '--i': 5 }} onClick={(e) => handleAnchorClick(e, '#trust')}>Trust</a>
+          <a href="#wholesale" className="nav-link" style={{ '--i': 6 }} onClick={(e) => handleAnchorClick(e, '#wholesale')}>Contact Us</a>
+        </nav>
         <div
-          className="hamburger"
+          className={`hamburger${mobileOpen ? ' open' : ''}`}
           id="hamburger"
           onClick={() => setMobileOpen((prev) => !prev)}
         >
           <span /><span />
         </div>
+      </div>
+
+      {/* Full Mobile Dropdown Drawer */}
+      <div className={`mobile-menu${mobileOpen ? ' open' : ''}`}>
+        <a href="#formats" onClick={(e) => handleAnchorClick(e, '#formats')}>Products</a>
+        <a href="#customize" onClick={(e) => handleAnchorClick(e, '#customize')}>Customise</a>
+        <a href="#process" onClick={(e) => handleAnchorClick(e, '#process')}>Process</a>
+        <a href="#serve" onClick={(e) => handleAnchorClick(e, '#serve')}>Clients</a>
+        <a href="#trust" onClick={(e) => handleAnchorClick(e, '#trust')}>Trust</a>
+        <a href="#wholesale" onClick={(e) => handleAnchorClick(e, '#wholesale')}>Contact Us</a>
       </div>
     </header>
   );

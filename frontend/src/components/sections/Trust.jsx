@@ -69,7 +69,7 @@ export default function Trust() {
         {/* PEORA LOGO IN THE MIDDLE */}
         <div className="trust-logo-item reveal">
           <div className="trust-logo">
-            peora<span>.</span>
+            peora
           </div>
         </div>
 
