@@ -3,11 +3,57 @@ import { useRevealAll } from '../../hooks/useReveal';
 
 export default function Wholesale() {
   const containerRef = useRevealAll('.reveal');
-  const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    business: 'Wholesaler',
+    city: '',
+    volume: '',
+    contact: '',
+    message: '',
+  });
+  const [status, setStatus] = useState({ loading: false, success: false, error: null });
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    setStatus({ loading: true, success: false, error: null });
+
+    try {
+      const res = await fetch('/api/inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          business_type: formData.business,
+          city: formData.city,
+          volume: formData.volume,
+          contact: formData.contact,
+          message: formData.message,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to send inquiry');
+      }
+
+      setStatus({ loading: false, success: true, error: null });
+      setFormData({
+        name: '',
+        business: 'Wholesaler',
+        city: '',
+        volume: '',
+        contact: '',
+        message: '',
+      });
+    } catch (err) {
+      console.error('Submission error:', err);
+      setStatus({ loading: false, success: false, error: err.message });
+    }
   };
 
   return (
@@ -29,12 +75,19 @@ export default function Wholesale() {
           <form className="inquiry reveal" onSubmit={handleSubmit}>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="name">Name</label>
-                <input id="name" type="text" placeholder="Your name" required />
+                <label htmlFor="name">Name *</label>
+                <input
+                  id="name"
+                  type="text"
+                  placeholder="Your name"
+                  required
+                  value={formData.name}
+                  onChange={handleChange}
+                />
               </div>
               <div className="field">
                 <label htmlFor="business">Business type</label>
-                <select id="business">
+                <select id="business" value={formData.business} onChange={handleChange}>
                   <option>Wholesaler</option>
                   <option>Retailer</option>
                   <option>Institution</option>
@@ -45,24 +98,61 @@ export default function Wholesale() {
             <div className="field-row">
               <div className="field">
                 <label htmlFor="city">City</label>
-                <input id="city" type="text" placeholder="City" />
+                <input
+                  id="city"
+                  type="text"
+                  placeholder="City"
+                  value={formData.city}
+                  onChange={handleChange}
+                />
               </div>
               <div className="field">
-                <label htmlFor="volume">Volume needed</label>
-                <input id="volume" type="text" placeholder="e.g. 200 jars / week" />
+                <label htmlFor="contact">Phone / Email *</label>
+                <input
+                  id="contact"
+                  type="text"
+                  placeholder="Phone number or email"
+                  required
+                  value={formData.contact}
+                  onChange={handleChange}
+                />
               </div>
             </div>
             <div className="field">
-              <label htmlFor="msg">Message</label>
-              <textarea id="msg" rows="3" placeholder="Anything else we should know" />
+              <label htmlFor="volume">Volume needed</label>
+              <input
+                id="volume"
+                type="text"
+                placeholder="e.g. 200 jars / week"
+                value={formData.volume}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="field">
+              <label htmlFor="message">Message</label>
+              <textarea
+                id="message"
+                rows="3"
+                placeholder="Anything else we should know"
+                value={formData.message}
+                onChange={handleChange}
+              />
             </div>
             <button
               className="submit-btn"
               type="submit"
-              style={submitted ? { background: 'var(--accent)', color: 'var(--bg)' } : undefined}
+              disabled={status.loading}
+              style={status.success ? { background: 'var(--accent)', color: 'var(--bg)' } : undefined}
             >
-              {submitted ? '✓ Request received' : 'Send Inquiry'}
+              {status.loading ? 'Sending...' : status.success ? '✓ Inquiry Received!' : 'Send Inquiry'}
             </button>
+
+            {status.error && (
+              <p style={{ color: '#ef4444', fontSize: '0.875rem', marginTop: '0.5rem' }}>
+                {status.error}
+              </p>
+            )}
+
             <p className="form-note">We reply to wholesale inquiries within one business day.</p>
           </form>
         </div>

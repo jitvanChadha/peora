@@ -7,11 +7,14 @@ dist/
 **/dist/
 build/
 **/build/
+.vercel/
 
-# Environment files
+# Environment files & Secrets
 .env
+.env*
 .env.local
 .env.*.local
+*.env
 
 # Operating System & IDE junk
 .DS_Store
