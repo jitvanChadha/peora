@@ -10,6 +10,7 @@ export default function Wholesale() {
     volume: '',
     contact: '',
     message: '',
+    company_website: '', // honeypot
   });
   const [status, setStatus] = useState({ loading: false, success: false, error: null });
 
@@ -33,12 +34,13 @@ export default function Wholesale() {
           volume: formData.volume,
           contact: formData.contact,
           message: formData.message,
+          company_website: formData.company_website,
         }),
       });
 
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to send inquiry');
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'We could not send your enquiry. Please try again or email omaquaserve@gmail.com.');
       }
 
       setStatus({ loading: false, success: true, error: null });
@@ -49,7 +51,9 @@ export default function Wholesale() {
         volume: '',
         contact: '',
         message: '',
+        company_website: '',
       });
+      setTimeout(() => setStatus((s) => (s.success ? { ...s, success: false } : s)), 6000);
     } catch (err) {
       console.error('Submission error:', err);
       setStatus({ loading: false, success: false, error: err.message });
@@ -72,13 +76,16 @@ export default function Wholesale() {
               <div>FSSAI-licensed, quality-tested at every stage</div>
             </div>
           </div>
-          <form className="inquiry reveal" onSubmit={handleSubmit}>
+          <form className="inquiry reveal" method="post" action="/api/inquiry" onSubmit={handleSubmit}>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="name">Name *</label>
+                <label htmlFor="name">Name <span aria-hidden="true">*</span></label>
                 <input
                   id="name"
+                  name="name"
                   type="text"
+                  autoComplete="name"
+                  enterKeyHint="next"
                   placeholder="Your name"
                   required
                   value={formData.name}
@@ -87,7 +94,7 @@ export default function Wholesale() {
               </div>
               <div className="field">
                 <label htmlFor="business">Business type</label>
-                <select id="business" value={formData.business} onChange={handleChange}>
+                <select id="business" name="business_type" value={formData.business} onChange={handleChange}>
                   <option>Wholesaler</option>
                   <option>Retailer</option>
                   <option>Institution</option>
@@ -100,17 +107,25 @@ export default function Wholesale() {
                 <label htmlFor="city">City</label>
                 <input
                   id="city"
+                  name="city"
                   type="text"
+                  autoComplete="address-level2"
+                  enterKeyHint="next"
                   placeholder="City"
                   value={formData.city}
                   onChange={handleChange}
                 />
               </div>
               <div className="field">
-                <label htmlFor="contact">Phone / Email *</label>
+                <label htmlFor="contact">Phone / Email <span aria-hidden="true">*</span></label>
                 <input
                   id="contact"
+                  name="contact"
                   type="text"
+                  autoCapitalize="none"
+                  autoCorrect="off"
+                  spellCheck="false"
+                  enterKeyHint="next"
                   placeholder="Phone number or email"
                   required
                   value={formData.contact}
@@ -122,7 +137,9 @@ export default function Wholesale() {
               <label htmlFor="volume">Volume needed</label>
               <input
                 id="volume"
+                name="volume"
                 type="text"
+                enterKeyHint="next"
                 placeholder="e.g. 200 jars / week"
                 value={formData.volume}
                 onChange={handleChange}
@@ -132,26 +149,43 @@ export default function Wholesale() {
               <label htmlFor="message">Message</label>
               <textarea
                 id="message"
+                name="message"
                 rows="3"
                 placeholder="Anything else we should know"
                 value={formData.message}
                 onChange={handleChange}
               />
             </div>
+            {/* Honeypot — hidden from people, bots fill it in */}
+            <div className="hp-field" aria-hidden="true">
+              <label htmlFor="company_website">Website</label>
+              <input
+                id="company_website"
+                name="company_website"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                value={formData.company_website}
+                onChange={handleChange}
+              />
+            </div>
+
             <button
-              className="submit-btn"
+              className={`submit-btn${status.success ? ' is-success' : ''}`}
               type="submit"
               disabled={status.loading}
-              style={status.success ? { background: 'var(--accent)', color: 'var(--bg)' } : undefined}
             >
-              {status.loading ? 'Sending...' : status.success ? '✓ Inquiry Received!' : 'Send Inquiry'}
+              {status.loading ? 'Sending…' : status.success ? '✓ Enquiry sent' : 'Send Enquiry'}
             </button>
 
-            {status.error && (
-              <p style={{ color: '#ef4444', fontSize: '0.875rem', marginTop: '0.5rem' }}>
-                {status.error}
-              </p>
-            )}
+            <div role="status">
+              {status.success && (
+                <p className="form-status form-status--ok">
+                  Thanks! Your enquiry is with our team, and we'll get back to you within one business day.
+                </p>
+              )}
+              {status.error && <p className="form-status form-status--err">{status.error}</p>}
+            </div>
 
             <p className="form-note">We reply to wholesale inquiries within one business day.</p>
           </form>

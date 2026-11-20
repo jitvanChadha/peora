@@ -18,7 +18,7 @@ export default function Footer() {
             <p>Hygienically processed drinking water, manufactured in Jabalpur, Madhya Pradesh since 2002.</p>
           </div>
           <div className="footer-col">
-            <h5>Site</h5>
+            <h2>Site</h2>
             <ul>
               <li><a href="#process" onClick={(e) => handleAnchorClick(e, '#process')}>Process</a></li>
               <li><a href="#formats" onClick={(e) => handleAnchorClick(e, '#formats')}>Formats</a></li>
@@ -26,14 +26,14 @@ export default function Footer() {
             </ul>
           </div>
           <div className="footer-col">
-            <h5>Business</h5>
+            <h2>Business</h2>
             <ul>
               <li><a href="#wholesale" onClick={(e) => handleAnchorClick(e, '#wholesale')}>Wholesale Inquiry</a></li>
               <li><a href="#">Certifications</a></li>
             </ul>
           </div>
           <div className="footer-col">
-            <h5>Contact</h5>
+            <h2>Contact</h2>
             <ul>
               <li><a href="mailto:omaquaserve@gmail.com">omaquaserve@gmail.com</a></li>
               <li>Jabalpur, Madhya Pradesh</li>

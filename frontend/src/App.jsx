@@ -16,9 +16,10 @@ import Wholesale from './components/sections/Wholesale';
 export default function App() {
   return (
     <>
+      <a className="skip-link" href="#top">Skip to main content</a>
       <Preloader />
       <Header />
-      <main id="top">
+      <main id="top" tabIndex={-1}>
         <Hero />
         <Marquee />
         <Formats />
